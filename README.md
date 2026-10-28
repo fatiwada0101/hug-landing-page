@@ -57,3 +57,5 @@ The homepage header advances every six seconds with crossfade/zoom transitions a
 The library page now includes Maryam Saleh's portrait, the exact user-supplied welcome message with Read more, the published library opening hours, all five library facility photos and eight resource logos. The directory now contains 28 resources. Library enquiries use info@library.hug.edu.ng. The Library / ePortal / Get support utility links remain visible on mobile and route to /library, /#portal and /#contact respectively.
 
 Apply actions now navigate directly to https://portal.hug.edu.ng in the same tab. The homepage no longer mounts the application popup; navbar, hero, admission-section and programme-card Apply links use the portal directly.
+
+The admissions banner's Apply now and Start Application links are direct anchors to the admission portal with target=_blank and rel=noopener noreferrer. They do not use a callback or popup.

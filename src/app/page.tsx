@@ -25,7 +25,7 @@ export default function Home() {
   const openApply = (_id?: string) => { window.location.assign("https://portal.hug.edu.ng"); };
   return <main id="main-content" className="min-h-screen bg-white text-gray-900 flex flex-col font-sans">
     <Navbar onOpenPortal={openPortal} onOpenApply={openApply}/>
-    <NoticeTicker onOpenApply={() => openApply()}/>
+    <NoticeTicker/>
     <HeroSection onOpenApply={() => openApply()} onOpenPortal={() => openPortal()}/>
     <StartHereCard onOpenPortal={() => openPortal()} onOpenApply={() => openApply()} onSearch={setSearchFilter}/>
     <ViceChancellorWelcome/>
