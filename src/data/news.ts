@@ -1,0 +1,9 @@
+export interface NewsItem { id: string; title: string; category: "Admissions" | "Academic Milestone" | "Research & Labs" | "Campus Life" | "Governance"; date: string; readTime: string; summary: string; image: string; featured?: boolean; }
+export const UNIVERSITY_NEWS: NewsItem[] = [
+  { id: "matriculation-inaugural", title: "Huda University Matriculates 311 Students", category: "Academic Milestone", date: "University news", readTime: "", summary: "The maiden matriculation ceremony welcomed traditional rulers, university leaders and dignitaries, with the Emir of Zazzau installed as the first Chancellor.", image: "/hug/slider/m1.jpeg", featured: true },
+  { id: "nuc-licence", title: "NUC and Ministry of Education grant operational approval", category: "Governance", date: "15 May 2023", readTime: "", summary: "Huda University Gusau received its operational approval from the National Universities Commission and Federal Ministry of Education.", image: "/hug/slider/hug1.jpg", featured: true },
+  { id: "admissions-2026-2027", title: "Applications for the 2026/2027 academic session", category: "Admissions", date: "15 May 2026", readTime: "", summary: "Prospective applicants can visit the admission portal to begin their application.", image: "/hug/slider/hug2.jpg", featured: true },
+  { id: "academic-vacancies", title: "Internal and external advertisement for academic staff positions", category: "Governance", date: "University notice", readTime: "", summary: "Huda University invites applications from suitably qualified candidates for academic positions.", image: "/hug/slider/hug3.jpg" },
+];
+export interface UpcomingEvent { id: string; title: string; dateDay: string; dateMonth: string; time: string; location: string; category: string; }
+export const UPCOMING_EVENTS: UpcomingEvent[] = [];

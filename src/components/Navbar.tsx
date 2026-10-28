@@ -1,0 +1,45 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, Search, X } from "lucide-react";
+import { PROGRAMS } from "@/data/programs";
+interface NavbarProps { onOpenPortal?: (tab?: "student" | "applicant" | "staff" | "library") => void; onOpenApply?: (id?: string) => void; }
+const menus = [
+  { name: "About HUG", groups: [
+    { title: "Discover Huda", links: [{ label: "The University", href: "/#about" }, { label: "Mission and Vision", href: "/#mission" }, { label: "Our Values", href: "/#values" }, { label: "Campus Gallery", href: "/#gallery" }] },
+    { title: "Our People", links: [{ label: "Vice-Chancellor’s Welcome", href: "/#vc" }, { label: "Management Team", href: "/#management" }] },
+  ] },
+  { name: "Academics", groups: ["Faculty of Management and Social Sciences", "Faculty of Science and Computing", "Faculty of Allied Health Sciences"].map(faculty => ({ title: faculty, links: PROGRAMS.filter(program => program.faculty === faculty).map(program => ({ label: `${program.degree} ${program.name}`, href: "/#programmes" })) })) },
+  { name: "Students", groups: [{ title: "Your Huda Journey", links: [{ label: "Admissions", href: "/#admissions" }, { label: "Student Portal", href: "/#portal" }, { label: "Fees & Accommodation", href: "/#faqs" }, { label: "Campus Life", href: "/#life" }, { label: "University Bulletin", href: "/#news" }, { label: "Help & Enquiries", href: "/#contact" }] }] },
+];
+export default function Navbar(_: NavbarProps = {}) {
+  const pathname = usePathname();
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const [mobile, setMobile] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+  const closeMenus = () => { setMobile(false); setActive(null); };
+  useEffect(() => {
+    if (!mobile) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMobile(false); setActive(null); menuButton.current?.focus(); }
+    };
+    const desktop = window.matchMedia("(min-width: 1280px)");
+    const handleResize = () => { if (desktop.matches) { setMobile(false); setActive(null); } };
+    desktop.addEventListener("change", handleResize);
+    document.addEventListener("keydown", handleKey);
+    return () => { document.body.style.overflow = previousOverflow; desktop.removeEventListener("change", handleResize); document.removeEventListener("keydown", handleKey); };
+  }, [mobile]);
+  return <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xl border-b border-[#dfe7df] shadow-[0_4px_24px_-12px_rgba(5,47,33,.18)]">
+    <div className="bg-[#073d2a] text-[#c9dcd1] text-[10px] font-medium"><div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10 min-h-11 flex items-center justify-center md:justify-between gap-3"><div className="hidden md:flex items-center gap-5"><a href="mailto:info@hug.edu.ng" className="hover:text-white">info@hug.edu.ng</a><span className="w-px h-3 bg-white/15"/><a href="tel:+2348066696069" className="hover:text-white">+234 806 669 6069</a></div><nav aria-label="Quick services" className="flex items-center justify-center gap-2 sm:gap-4"><Link href="/library" onClick={closeMenus} className="inline-flex min-h-11 items-center px-3 hover:text-white">Library</Link><Link href="/#portal" onClick={closeMenus} className="inline-flex min-h-11 items-center px-3 hover:text-white">ePortal</Link><Link href="/#contact" onClick={closeMenus} className="inline-flex min-h-11 items-center gap-1 px-3 hover:text-white">Get support<ArrowRight aria-hidden="true" className="w-3 h-3"/></Link></nav></div></div>
+    <nav aria-label="Main navigation" className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10"><div className="flex items-center justify-between gap-4 min-h-[76px] sm:min-h-[84px] xl:min-h-[92px]">
+      <Link href="/" onClick={closeMenus} className="flex items-center gap-3 shrink-0" aria-label="Huda University Gusau home"><Image src="/hug/favicon.png" alt="" width={48} height={56} className="w-11 sm:w-12 h-14 object-contain" priority/><span className="border-l border-[#e2e8df] pl-3"><span className="block font-extrabold text-[#12452f] text-[13px] sm:text-[15px] leading-tight tracking-tight">Huda University<span className="block">Gusau</span></span><span className="block text-[8px] tracking-[.17em] uppercase text-[#9d7a35] mt-1 font-bold">Where the future begins</span></span></Link>
+      <div className="hidden xl:flex items-center gap-1 xl:gap-3 text-[12px] font-semibold text-[#415a4a]"><a href="/" className="px-3 py-3 text-[#09633c]">Home</a>{menus.map(menu => <div key={menu.name} className="relative py-3" onMouseEnter={() => setActive(menu.name)} onMouseLeave={() => setActive(null)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setActive(null); }}><button onClick={() => setActive(menu.name)} onKeyDown={event => { if(event.key === "Escape") setActive(null); }} aria-expanded={active === menu.name} className={`flex items-center gap-1.5 px-3 py-3 rounded-lg transition-colors ${active === menu.name ? "text-[#09633c] bg-[#eef5ed]" : "hover:text-[#09633c]"}`}>{menu.name}<ChevronDown aria-hidden="true" className="w-3 h-3"/></button>{active === menu.name && <div className={`absolute top-full right-0 pt-0 ${menu.name === "Academics" ? "w-[680px]" : menu.name === "About HUG" ? "w-[460px]" : "w-64"}`}><div className={`max-h-[calc(100dvh-160px)] overflow-y-auto overscroll-contain bg-white border border-[#e2e9df] rounded-2xl shadow-[0_20px_60px_-15px_rgba(4,45,28,.22)] p-6 grid gap-5 ${menu.name === "Academics" ? "grid-cols-3" : menu.name === "About HUG" ? "grid-cols-2" : "grid-cols-1"}`}>{menu.groups.map(group => <div key={group.title} className="space-y-2"><p className="text-[10px] uppercase tracking-wider font-extrabold text-[#097047] border-b border-[#edf1ea] pb-3 mb-3">{group.title}</p>{group.links.map(link => <a key={link.label} href={link.href} onClick={closeMenus} className="block py-2 px-2 -mx-2 rounded-lg hover:bg-[#f3f7ef] hover:text-[#09633c] text-xs font-medium text-[#5c6e60]">{link.label}</a>)}</div>)}</div></div>}</div>)}<Link href="/library" aria-current={pathname === "/library" ? "page" : undefined} className={`px-3 py-3 rounded-lg ${pathname === "/library" ? "text-[#09633c] bg-[#eef5ed]" : "hover:text-[#09633c]"}`}>Library</Link><a href="/#contact" className="px-3 py-3 hover:text-[#09633c]">Contact</a></div>
+      <div className="flex items-center gap-3 sm:gap-5"><a href="/#start" aria-label="Find a programme" className="hidden sm:flex text-[#4b6355]"><Search aria-hidden="true" className="w-[18px] h-[18px]"/></a><span className="hidden xl:block h-5 w-px bg-[#e2e8df]"/><a href="https://portal.hug.edu.ng" className="hidden sm:inline-flex items-center gap-3 rounded-xl bg-[#07623e] hover:bg-[#034a2f] px-4 lg:px-5 py-3 text-white text-xs font-bold transition-colors">Apply to Huda<ArrowUpRight aria-hidden="true" className="w-3.5 h-3.5"/></a><button ref={menuButton} aria-controls={mobile ? "mobile-navigation" : undefined} aria-label={mobile ? "Close navigation" : "Open navigation"} aria-expanded={mobile} onClick={() => setMobile(!mobile)} className="xl:hidden min-w-11 min-h-11 flex items-center justify-center rounded-lg bg-[#f0f5ed] p-2.5 text-[#12452f]">{mobile ? <X aria-hidden="true" className="w-5 h-5"/> : <Menu aria-hidden="true" className="w-5 h-5"/>}</button></div>
+    </div>{mobile && <div id="mobile-navigation" className="mobile-navigation xl:hidden overflow-y-auto overscroll-contain border-t border-[#e8eee5] py-5 space-y-3 text-sm"><a href="/" onClick={closeMenus} className="block py-3 min-h-11 font-bold">Home</a>{menus.map(menu => <div key={menu.name}><button onClick={() => setActive(active === menu.name ? null : menu.name)} aria-expanded={active === menu.name} className="w-full min-h-12 flex items-center justify-between py-3 font-bold text-[#17462f]">{menu.name}<ChevronDown aria-hidden="true" className="w-4 h-4"/></button>{active === menu.name && <div className="pl-3 py-3 space-y-4">{menu.groups.map(group => <div key={group.title}><p className="text-[10px] font-bold text-[#09633c] mb-2 uppercase tracking-wider">{group.title}</p>{group.links.map(link => <a key={link.label} href={link.href} onClick={closeMenus} className="block py-3 min-h-11 text-sm text-gray-600">{link.label}</a>)}</div>)}</div>}</div>)}<a href="/library" onClick={closeMenus} className="block py-3 min-h-11 font-bold">Library</a><a href="/#portal" onClick={closeMenus} className="block py-3 min-h-11 font-bold">ePortal</a><a href="/#contact" onClick={closeMenus} className="block py-3 min-h-11 font-bold">Contact & Support</a><a href="https://portal.hug.edu.ng" onClick={closeMenus} className="flex items-center justify-between bg-[#07623e] text-white rounded-xl px-4 py-3 text-xs font-bold">Apply to Huda<ArrowRight aria-hidden="true" className="w-4 h-4"/></a></div>}</nav>
+  </header>;
+}

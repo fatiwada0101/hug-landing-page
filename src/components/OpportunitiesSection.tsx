@@ -1,0 +1,13 @@
+"use client";
+import { ArrowRight, Award, BookOpen, Briefcase, Building2, GraduationCap, Users } from "lucide-react";
+const opportunities = [
+  { icon: GraduationCap, title: "Admissions", category: "2026/2027", description: "Find your programme and take the next step towards studying at Huda.", href: "/#admissions" },
+  { icon: Building2, title: "Registration & ePortal", category: "Student services", description: "Find the university’s application and registration services.", href: "/#portal" },
+  { icon: Briefcase, title: "Academic Staff Vacancies", category: "Careers", description: "Learn about academic opportunities and contact the university for details.", href: "/#vacancies" },
+  { icon: Award, title: "Accommodation", category: "Student support", description: "Get guidance on hostel reservations and accommodation enquiries.", href: "/#faqs" },
+  { icon: Users, title: "Campus Life", category: "Community", description: "Discover the university community and life on campus.", href: "/#life" },
+  { icon: BookOpen, title: "University Library", category: "Learning", description: "Find learning and research resources through Huda’s library.", href: "/library" },
+];
+export default function OpportunitiesSection(_: { onOpenApply: () => void }) {
+  return <section id="opportunities" className="py-14 sm:py-18 bg-[#fbf8f2] border-b border-[#ede7db]"><div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8"><div className="space-y-2"><p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] text-[#14814d]">Students & Opportunities</p><h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#153e2c] tracking-tight">Information for your next step.</h2></div><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">{opportunities.map(item => <a key={item.title} href={item.href} className="group bg-white rounded-2xl p-6 border border-[#e4e8df] hover:border-[#98b69b] hover:shadow-[0_12px_30px_-16px_rgba(4,45,28,.25)] transition-all flex flex-col justify-between gap-5"><div className="flex items-center justify-between"><span className="p-2.5 rounded-xl bg-[#f0f6ec]"><item.icon aria-hidden="true" className="w-5 h-5 text-[#087344]"/></span><span className="text-[9px] font-bold uppercase tracking-wider text-[#95804e]">{item.category}</span></div><div className="flex-1"><h3 className="text-sm sm:text-base font-extrabold text-[#153e2c] mb-2">{item.title}</h3><p className="text-xs text-[#718073] leading-relaxed">{item.description}</p></div><span className="inline-flex items-center gap-2 text-xs font-bold text-[#087344]">Find out more<ArrowRight aria-hidden="true" className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"/></span></a>)}</div></div></section>;
+}

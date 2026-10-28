@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --primary: #019934; --secondary: #ff9a00; --gold: #ff9a00; }
+@layer base {
+  html { scroll-behavior: smooth; font-family: var(--font-inter), 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; color: #1a1e24; background-color: #ffffff; scroll-padding-top: 152px; }
+  body { overflow-x: hidden; margin: 0; padding: 0; }
+  h1,h2,h3,h4,h5,h6 { letter-spacing: -0.025em; }
+}
+.fudma-dot-grid { background-color: #019934; background-image: radial-gradient(rgba(255,255,255,.22) 1.2px,transparent 1.2px); background-size: 20px 20px; }
+.fudma-dot-grid-dark { background-color: #026624; background-image: radial-gradient(rgba(255,255,255,.18) 1.2px,transparent 1.2px); background-size: 22px 22px; }
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:#f1f5f9; }
+::-webkit-scrollbar-thumb { background:#019934; border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:#026624; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.animate-fadeIn { animation:fadeIn .2s ease-out; }
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .animate-fadeIn { animation:none; } }
+
+/* A continuous tonal overlay keeps the photography and content in one composition. */
+.hero-overlay {
+  background: linear-gradient(90deg, #052f21 0%, rgba(5,47,33,.97) 24%, rgba(5,47,33,.88) 39%, rgba(5,47,33,.5) 57%, rgba(5,47,33,.08) 79%, rgba(5,47,33,.12) 100%);
+}
+.hero-atmosphere {
+  background: linear-gradient(0deg, rgba(3,31,21,.68) 0%, transparent 35%, transparent 75%, rgba(3,31,21,.18) 100%), radial-gradient(ellipse at 15% 100%, rgba(47,113,66,.19), transparent 60%);
+}
+:where(a, button, input, select, textarea, summary):focus-visible { outline: 2px solid #b5883b; outline-offset: 4px; }
+::selection { background: #dfb668; color: #123d29; }
+@media(max-width: 1023px) { .hero-overlay { background: linear-gradient(90deg, rgba(5,47,33,.96), rgba(5,47,33,.82) 55%, rgba(5,47,33,.46)); } }
+@media(max-width: 639px) { .hero-overlay { background: linear-gradient(90deg, rgba(5,47,33,.94), rgba(5,47,33,.76)), linear-gradient(0deg, #052f21, transparent 60%); } }
+
+/* Mobile navigation stays within the visible screen, including landscape viewports. */
+.mobile-navigation { max-height: calc(100dvh - 120px); }
+.grid > * { min-width: 0; }
+@media(min-width:640px) { .mobile-navigation { max-height: calc(100dvh - 128px); } }
+@media(min-width:768px) { .mobile-navigation { max-height: calc(100dvh - 128px); } }
+@media(max-width:639px) {
+  html { scroll-padding-top: 136px; }
+  input:not([type="checkbox"]):not([type="radio"]), select, textarea { font-size: 16px; }
+  main p, main h2, main h3, footer p { overflow-wrap: break-word; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
